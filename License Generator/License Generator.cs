@@ -112,6 +112,7 @@ namespace cAlgo.Robots
                 AllowBackTest = AllowBackTest
 
             };
+
             string LicenseFileName = "";
             try
             {
@@ -121,7 +122,7 @@ namespace cAlgo.Robots
 
                 LicenseFileName = string.Format(LocalFileName, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), HashName);
 
-                System.IO.File.WriteAllText(LicenseFileName, EncInfo);
+                File.WriteAllText(LicenseFileName, EncInfo);
 
             }
             catch
