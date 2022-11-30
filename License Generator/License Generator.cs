@@ -16,7 +16,7 @@ namespace cAlgo.Robots
         #region Identity
 
         private const string NAME = "License Generator";
-        private const string VERSION = "1.073";
+        private const string VERSION = "1.074";
 
         #endregion
 
@@ -96,7 +96,7 @@ namespace cAlgo.Robots
             try
             {
 
-                if (Expire.CompareTo("*") != 0 && DateTime.Parse(Expire).CompareTo(DateTime.Now) < 0) { Exit("Please enter a valid 'Expire' date, greater than now"); return; }
+                if (Expire.CompareTo("*") != 0 && DateTime.Parse(Expire).CompareTo(Server.Time) < 0) { Exit(string.Format("Please enter a valid 'Expire' date, greater than now ({0})", Server.Time.ToString("yyyy.MM.dd HH:mm:ss"))); return; }
 
             }
             catch
