@@ -16,7 +16,7 @@ namespace cAlgo.Robots
         #region Identity
 
         private const string NAME = "License Generator";
-        private const string VERSION = "1.074";
+        private const string VERSION = "1.075";
 
         #endregion
 
@@ -62,7 +62,10 @@ namespace cAlgo.Robots
         #region Property
 
         private readonly byte[] IV = new byte[16] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x75, 0x69, 0x0, 0x73, 0x0, 0x0, 0x0, 0x0 };
-        private readonly string LocalFileName = "{0}\\cAlgo\\cTraderGuru\\License-{1}.ctg";
+        private readonly string LocalPathName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\cAlgo\\cTraderGuru\\";
+        private readonly string LocalFileName = "License-{0}.ctg";
+
+        private string LocalFullFileName = "";
 
         #endregion
 
@@ -76,13 +79,13 @@ namespace cAlgo.Robots
             try
             {
 
-                if (long.Parse(UserID) <= 0) { Exit("Please enter a valid 'UserID', greater than zero"); return; }
+                if (long.Parse(UserID) < 0) { Exit("Please enter a valid 'UserID', greater or equal than zero"); return; }
 
             }
             catch
             {
 
-                Exit("Please enter a valid 'UserID' like 123456"); return;
+                Exit("Please enter a valid 'UserID' like 123456 or zero for universal license"); return;
 
             }
 
@@ -116,16 +119,17 @@ namespace cAlgo.Robots
 
             };
 
-            string LicenseFileName = "";
             try
             {
 
                 string EncInfo = Encrypt(JsonSerializer.Serialize<LicenseInfo>(Info));
                 string HashName = GetMD5(Product.ToUpper() + UserID);
 
-                LicenseFileName = string.Format(LocalFileName, Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), HashName);
+                if(!Directory.Exists( LocalPathName ))Directory.CreateDirectory( LocalPathName );
 
-                File.WriteAllText(LicenseFileName, EncInfo);
+                LocalFullFileName = LocalPathName + string.Format(LocalFileName, HashName);
+
+                File.WriteAllText(LocalFullFileName, EncInfo);
 
             }
             catch
@@ -135,7 +139,7 @@ namespace cAlgo.Robots
 
             }
 
-            Exit($"License created {LicenseFileName}"); return;
+            Exit($"License created {LocalFullFileName}"); return;
 
         }
 
