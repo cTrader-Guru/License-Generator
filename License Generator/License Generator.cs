@@ -42,7 +42,7 @@ namespace cAlgo.Robots
         [Parameter(NAME + " " + VERSION, DefaultValue = "https://ctrader.guru/")]
         public string Identity { get; set; }
 
-        [Parameter("UserID", DefaultValue = 0, MinValue = 0, Step = 1)]
+        [Parameter("UserID (zero = universal)", DefaultValue = 0, MinValue = 0, Step = 1)]
         public string UserID { get; set; }
 
         [Parameter("Product", DefaultValue = "")]
